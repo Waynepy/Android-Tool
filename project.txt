@@ -1,0 +1,29 @@
+|-- ferramenta/
+|    |-- main.py                          # Ponto de entrada principal da aplicação
+|    |-- requirements.txt                 # Lista de dependências do projeto
+|    |-- commands/                        # Pasta contendo scripts e utilitários para interagir com dispositivos Android
+|         |-- activities/                 # Operações relacionadas à atividade do aplicativo
+|         |    |-- obtain_activities.py   # Obtém informações sobre atividades de aplicativos
+|         |    |-- running_activities.py  # Lista atividades em execução no dispositivo
+|         |
+|         |-- adb_commands/               # Comandos e utilitários relacionados ao ADB
+|         |    |-- adb_devices.py         # Lista dispositivos Android conectados via ADB
+|         |    |-- get_apps.py            # Obtém a lista de aplicativos instalados no dispositivo
+|         |    |-- install_frida.py       # Instala o Frida Server em um dispositivo Android
+|         |    |-- kill_adb.py            # Encerra o servidor ADB
+|         |    |-- start_frida.py         # Inicia o servidor frida
+|         |
+|         |-- execute_scripts/            # Scripts de execução específicos
+|         |    |-- execute_java.py        # Executa código Java em um dispositivo Android
+|         |    |-- enumerate-fields.js
+|         |    |-- enumerate-methods.js
+|         |    |-- list-logs.js
+|         |    |-- list-logs.py
+|         |
+|         |-- import_export/              # Importação e exportação de dados
+|         |    |-- export_apk.py          # Exporta um APK de um dispositivo Android
+|         |    |-- import_apk.py          # Importa um APK para um dispositivo Android
+|         |
+|         |-- logcat/                     # Operações relacionadas ao logcat do dispositivo
+|              |-- logcat1.py             # Captura logs do logcat do dispositivo
+|              |-- logcat2.py             # Filtra e processa logs do logcat do dispositivo
