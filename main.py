@@ -11,7 +11,6 @@ if not base_dir.endswith(os.path.sep):
     base_dir += os.path.sep
 
 init(autoreset=True)
-
 def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
 
@@ -279,6 +278,49 @@ def ListProcessFrida():
     for List_Process in File_ListRead:
         print(f"{Fore.MAGENTA}{List_Process}{Style.RESET_ALL}")
     input(f"{Fore.GREEN}Press Enter To Go Back...{Style.RESET_ALL}")
+
+def crypto_algo():
+    # Define o diretório base e o diretório onde os scripts estão localizados
+    base_dir = os.getcwd()
+    scripts_dir = os.path.join(base_dir, "commands", "Scripts", "hook")
+    
+    # Lista os arquivos .js no diretório
+    scripts = listar_scripts_js(scripts_dir)
+
+    # Verifica se há scripts disponíveis
+    if not scripts:
+        print(f"{Fore.RED}No .js scripts were found in the directory: {scripts_dir}.{Style.RESET_ALL}")
+        input(f"{Fore.GREEN}Press Enter To Go Back...{Style.RESET_ALL}")
+        return
+
+    while True:
+        try:
+            # Seleciona o script
+            script_selecionado = selecionar_script(scripts)
+            if script_selecionado is None:
+                print(f"{Fore.GREEN}Returning to the main menu...{Style.RESET_ALL}")
+                return
+            
+            # Define o caminho completo do script selecionado
+            frida_script_path = os.path.join(scripts_dir, script_selecionado)
+            
+            pid = input(f"{Fore.GREEN}Apk Pid ->{Style.RESET_ALL} ")
+
+            # Monta o comando para executar o Frida com o script selecionado
+            start_frida_script = f'frida -U -p {pid} -l "{frida_script_path}"'
+
+            print(f"{Fore.MAGENTA}")  
+            executar_comando_com_cor(start_frida_script)
+            print(f"{Style.RESET_ALL}") 
+
+            input(f"{Fore.GREEN}Press Enter To Go Back...{Style.RESET_ALL}")
+            break
+        except KeyboardInterrupt:
+            print(f"{Fore.GREEN}Returned to the main menu.{Style.RESET_ALL}...")
+            break
+        except ValueError:
+            print(f"{Fore.RED}Invalid Selection, Try Again..{Style.RESET_ALL}")
+
 def main_menu():
     while True:
         output = adb_devices() 
@@ -289,7 +331,7 @@ Device Connected -> {output}
 _____________________________________________________________
 1 -> Frida Setup             6 -> Activities
 2 -> Processes               7 -> Objection 
-3 -> Bypasses JS             8 -> Cryptography Identifier 
+3 -> Bypasses JS             8 -> Hooks
 4 -> Export/Import APK       9 -> Menu 2
 5 -> LogCat                  0 -> Quit
 _____________________________________________________________
@@ -351,7 +393,17 @@ _____________________________________________________________
 _____________________________________________________________
 """
 
-        menu8_objection = fade.greenblue(menu8_objection)        
+        menu8_objection = fade.greenblue(menu8_objection)    
+        menu9_hooks = """
+_____________________________________________________________
+1 -> Cripto Algo Identifiers (Needed initialized Frida)
+2 -> Custom hooks (Needed initialized Frida)
+0 -> Back
+_____________________________________________________________
+"""
+
+        menu9_hooks = fade.greenblue(menu9_hooks)   
+
         display_menu(menu1)
 
         selection = input(f"{Fore.GREEN}->{Style.RESET_ALL} ")
@@ -426,8 +478,17 @@ _____________________________________________________________
 
             elif selection == "2":
                 print("Starting option 2 from menu 6")
+
+
+
         elif selection == "8":
-            print("Starting option 8")
+            display_menu(menu9_hooks)
+            selection = input(f"{Fore.GREEN}->{Style.RESET_ALL} ")
+            if selection == "1":
+                crypto_algo()
+
+
+
 
         elif selection == "9":
             selection = input(f"{Fore.GREEN}->{Style.RESET_ALL} ")
